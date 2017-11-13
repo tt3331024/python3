@@ -61,7 +61,7 @@
 
 ### 設定使用 jupyter 開啟 pyspark
 
-我們將直接開啟jupyter notebook，並透過findspark package在代碼中創建一個Spark Context。  
+我們將直接開啟jupyter notebook，並透過findspark package在代碼中創建一個Spark Session。  
 findspark可以在任何IDE中被import，因此這方法並不限定於使用jupyter。  
 安裝findspark：
 
@@ -77,19 +77,23 @@ findspark可以在任何IDE中被import，因此這方法並不限定於使用ju
 	findspark.init()
 	import pyspark
 	import random
-	sc = pyspark.SparkContext(master='local[1]', appName="Pi")
-	sc
+	ss = pyspark.sql.SparkSession.builder \
+		.master('local[1]') \
+		.appName("MonteCarloPi") \
+		.getOrCreate()
+	ss
+
 	num_samples = 100000000
 	def inside(p):     
 	    x, y = random.random(), random.random()
 	    return x*x + y*y < 1
-	count = sc.parallelize(range(0, num_samples)).filter(inside).count()
+	count = ss.SparkContext.parallelize(range(0, num_samples)).filter(inside).count()
 	pi = 4 * count / num_samples
 	print(pi)
 
-	sc.stop()
+	ss.stop()
 
-當然，你也可以在創建完Spark Context後，進行你所需要的代碼。
+當然，你也可以在創建完Spark Session後，進行你所需要的代碼。
 
 ### 設定 jupyter 遠端連線
 
@@ -110,7 +114,7 @@ findspark可以在任何IDE中被import，因此這方法並不限定於使用ju
 	 >>>passwd()
 	    Enter password:
 		Verify password:
-		'sha1:014c492968ea:fe05c6a8bb1ef93579a47fe53df361727bb696cc'
+		'sha1:014c4...<your hashed password here>'
 
 執行jupyter_notebook_config.py：
 
