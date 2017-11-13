@@ -1,5 +1,8 @@
 ## pyspark with jupyter環境架設
 
+Date: 2017/10/30
+Author: 柯則宇
+
 本篇文章的目的是要讓pyspark可以在jupyter上進行互動式coding介面。雖然spark本身是用scala開發，且scala運行速度要比python快，但python對資料處理容易、學習曲線平緩，且有眾多的libraries支援，因此python還是大多數資料科學家的首選。有關python和scala的比較可以看[這篇文章](https://www.dezyre.com/article/scala-vs-python-for-apache-spark/213)。  
 * 本篇的OS環境為CentOS-7  
 * spark是本機執行模式
