@@ -12,11 +12,11 @@ import pyspark.sql.functions as fn
 from pyspark.sql import types
 
 # 設定 hadoop 路徑
-spark_url = "mesos://zk://172.16.0.8:2181,172.16.0.9:2181,172.16.0.10:2181/mesos"
-hdfs_path = "hdfs://172.16.0.16"
+spark_url = "mesos://zk://your_ip_1:post1,your_ip_2:port2/mesos"
+hdfs_path = "hdfs://your_ip"
 coresMax = "6"
 executorMem = "6g"
-appName = "cut_text_to_DHA"
+appName = "cut words script"
 
 def WriteAndRepartition(dataFrame, tempPath, finalPath, source = "csv"):
     dataFrame.write.format(source).mode("overwrite").option("compression", "gzip").save(path=tempPath)
@@ -107,7 +107,7 @@ else:
         WriteAndRepartition(
             dataFrame = ruten_df_cut,
             tempPath = hdfs_path + "/corpus/temp/temp_data_frame_01",
-            finalPath = hdfs_path + "/adbert_data_house/daily_observation/attribute/" \
+            finalPath = hdfs_path + "/daily_observation/attribute/" \
                         + date + "/corpus_ruten_cut",
             source = "parquet")
 
@@ -115,7 +115,7 @@ else:
     ptt_hot_flog = True
     ptt_train_flog = True
     ptt_hot_df = ss.read.csv(
-        path = hdfs_path + "/adbert_data_house/daily_observation/attribute/" + date + "/corpus_ptt_hot",
+        path = hdfs_path + "/daily_observation/attribute/" + date + "/corpus_ptt_hot",
         sep = "\t")
     if ptt_hot_df.rdd.isEmpty():
         print("There is no ptt_hot data on " + date)
@@ -124,7 +124,7 @@ else:
         ptt_hot_df_cut = cut_text(ptt_hot_df, ptt_colnames[0], ptt_colnames[1])
     #
     ptt_train_df = ss.read.csv(
-        path = hdfs_path + "/adbert_data_house/daily_observation/attribute/" + date + "/corpus_ptt_train",
+        path = hdfs_path + "/daily_observation/attribute/" + date + "/corpus_ptt_train",
         sep = "\t")
     if ptt_train_df.rdd.isEmpty():
         print("There is no ptt_train data on " + date)
@@ -138,21 +138,21 @@ else:
         WriteAndRepartition(
             dataFrame = ptt_df_cut,
             tempPath = hdfs_path + "/corpus/temp/temp_data_frame_01",
-            finalPath = hdfs_path + "/adbert_data_house/daily_observation/attribute/" \
+            finalPath = hdfs_path + "/daily_observation/attribute/" \
                         + date + "/corpus_ptt_cut",
             source = "parquet")
     elif ptt_train_flog & (not ptt_hot_flog):
         WriteAndRepartition(
             dataFrame = ptt_train_df_cut,
             tempPath = hdfs_path + "/corpus/temp/temp_data_frame_01",
-            finalPath = hdfs_path + "/adbert_data_house/daily_observation/attribute/" \
+            finalPath = hdfs_path + "/daily_observation/attribute/" \
                         + date + "/corpus_ptt_cut",
             source = "parquet")
     elif ptt_hot_flog & (not ptt_train_flog):
         WriteAndRepartition(
             dataFrame = ptt_hot_df_cut,
             tempPath = hdfs_path + "/corpus/temp/temp_data_frame_01",
-            finalPath = hdfs_path + "/adbert_data_house/daily_observation/attribute/" \
+            finalPath = hdfs_path + "/daily_observation/attribute/" \
                         + date + "/corpus_ptt_cut",
             source = "parquet")
     else:
@@ -160,7 +160,7 @@ else:
 
     #### AFPpublisher
     afp_publiser_df = ss.read.csv(
-        path = hdfs_path + "/adbert_data_house/daily_observation/attribute/" + date + "/corpus_afp_publisher",
+        path = hdfs_path + "/daily_observation/attribute/" + date + "/corpus_afp_publisher",
         sep = "\t")
     if afp_publiser_df.rdd.isEmpty():
         print("There is no AFP publisher on " + date)
@@ -169,7 +169,7 @@ else:
         WriteAndRepartition(
             dataFrame = afp_publiser_df_cut,
             tempPath = hdfs_path + "/corpus/temp/temp_data_frame_01",
-            finalPath = hdfs_path + "/adbert_data_house/daily_observation/attribute/" \
+            finalPath = hdfs_path + "/daily_observation/attribute/" \
                         + date + "/corpus_afp_publisher_cut",
             source = "parquet")
 
@@ -184,7 +184,7 @@ else:
         WriteAndRepartition(
             dataFrame = ata_container_df_cut,
             tempPath = hdfs_path + "/corpus/temp/temp_data_frame_01",
-            finalPath = hdfs_path + "/adbert_data_house/daily_observation/attribute/" \
+            finalPath = hdfs_path + "/daily_observation/attribute/" \
                         + date + "/corpus_ata_container_cut",
             source = "parquet")
 
@@ -199,7 +199,7 @@ else:
         WriteAndRepartition(
             dataFrame = afp_landingpage_df_cut,
             tempPath = hdfs_path + "/corpus/temp/temp_data_frame_01",
-            finalPath = hdfs_path + "/adbert_data_house/daily_observation/attribute/" \
+            finalPath = hdfs_path + "/daily_observation/attribute/" \
                         + date + "/corpus_afp_advertiser_cut",
             source = "parquet")
 ss.stop()
