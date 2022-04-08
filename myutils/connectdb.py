@@ -17,7 +17,7 @@ class ConnectedMSSQL:
 
     def __init__(self, server, database, username):
         load_dotenv()
-        uusers = json.loads(os.getenv('USERS'))
+        users = json.loads(os.getenv('USERS'))
         
         self.server = server 
         self.database = database  
