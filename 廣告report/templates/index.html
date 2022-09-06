@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h3 class="text-muted">Please Upload Your Files</h3>
+        </div>
+	    <hr/>
+	    <div>
+	    	<p>上傳規則</p>
+		    <ol>
+			    <li>只能上傳.xlsx檔。</li>
+			    <li>如果同媒體有多個版位，可用多個sheet區分，但所有sheet都需要符合下列規則:</li>
+			    <li>sheet內，A1為媒體名稱，A2為版位名稱。</li>
+			    <li>第3列(row)需為欄位名稱，其中A3必須為Date(日期)。</li>
+			    <li>其他欄位名需為IMPs, Clicks, Views，如果沒有Clicks或Views的話，就不用填寫。</li>
+			    <li>資料表末端不能有加總列(row)，且位於結束時，需有一列空白欄做為提示。</li>
+			</ol>
+		</div>
+        <hr/>
+        <div>
+            <form action="upload" method="post" enctype="multipart/form-data">
+                <input type="file" multiple="" name="file[]" class="span3">
+                <br/>
+                <input type="submit" value="上傳" class="span2">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# requirements.txt
+# Function dependencies, for example:
+# package==version
+
+pandas
+numpy
+flask
+werkzeug
+openpyxl
+
